@@ -1,7 +1,5 @@
-import { useEffect } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { useTheme } from '@/hooks/useTheme'
-import { useInvoiceStore } from '@/store/useInvoiceStore'
 import Layout from '@/components/layout/Layout'
 import InvoiceListPage from '@/pages/InvoiceListPage'
 import InvoiceDetailPage from '@/pages/InvoiceDetailPage'
@@ -9,11 +7,6 @@ import NotFoundPage from '@/pages/NotFoundPage'
 
 function App() {
   useTheme()
-  const seedData = useInvoiceStore(s => s.seedData)
-
-  useEffect(() => {
-    seedData()
-  }, [seedData])
 
   return (
     <BrowserRouter>

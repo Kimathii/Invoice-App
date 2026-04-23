@@ -17,7 +17,6 @@ interface InvoiceStore {
   closeDrawer: () => void
   getFilteredInvoices: () => Invoice[]
   getInvoiceById: (id: string) => Invoice | undefined
-  seedData: () => void
 }
 
 const SEED_INVOICES: Invoice[] = [
@@ -33,7 +32,9 @@ const SEED_INVOICES: Invoice[] = [
 export const useInvoiceStore = create<InvoiceStore>()(
   persist(
     (set, get) => ({
-      invoices: [],
+      // Seed invoices are the default — persist only uses this
+      // when localStorage has no existing data (first visit ever)
+      invoices: SEED_INVOICES,
       filter: 'all',
       isDrawerOpen: false,
       editingInvoiceId: null,
@@ -65,11 +66,6 @@ export const useInvoiceStore = create<InvoiceStore>()(
       },
 
       getInvoiceById: (id) => get().invoices.find(inv => inv.id === id),
-
-      seedData: () => {
-        if (get().invoices.length > 0) return
-        set({ invoices: SEED_INVOICES })
-      },
     }),
     { name: 'invoice-app-storage' }
   )
